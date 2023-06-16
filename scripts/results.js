@@ -1,3 +1,5 @@
+import { options } from "./config.js";
+
 const url = window.location.search;
 const searchParam = new URLSearchParams(url).get("search");
 document.title = searchParam + " | Project Movie";
@@ -12,14 +14,6 @@ const contentContainer = document.getElementById("content-container");
 const heading = document.getElementById("content-heading");
 heading.innerText += " \"" + searchParam + "\"";
 
-const options = {
-  method: 'GET',
-  headers: {
-    accept: 'application/json',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiNzI3OTUyMWQ2OGZhMGU3ZmMwNzYyYWRkNTBkOWIyYSIsInN1YiI6IjY0Njg1YmY1MDA2YjAxMDBlNmI0MDY0ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.JXmoEYsUAEX4uHnSnIrzR5tTN0yg3lV2fau5Jc-g2nk'
-  }
-};
-
 async function loadResults(page) {
   const response = await fetch('https://api.themoviedb.org/3/search/movie?query=' + searchParam.toLowerCase() + '&include_adult=false&language=en-US&page=' + page, options);
   const data = await response.json();
@@ -27,7 +21,6 @@ async function loadResults(page) {
   if (page == data.total_pages || page >= 500) {
     loadMoreElement.remove();
   }
-  console.log(data);
   createContainers(data);
 }
 
