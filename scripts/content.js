@@ -3,7 +3,7 @@ const contentDescription = document.getElementById("content-description");
 const image = document.getElementById("poster-img");
 const contentInfo = document.getElementById("content-info");
 
-const initialUrl = "http://127.0.0.1:5500/";
+const initialUrl = window.location.href.split('?')[0];
 
 const url = window.location.search;
 const contentID = new URLSearchParams(url).get("id");

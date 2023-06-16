@@ -1,5 +1,5 @@
 var initialAPIUrl = "https://api.themoviedb.org/3/trending/movie/day";
-let initialUrl = "http://127.0.0.1:5500/";
+let initialUrl = window.location.href.split('?')[0];
 
 let contentContainer = document.getElementById("content-container");
 
