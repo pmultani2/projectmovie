@@ -15,20 +15,20 @@
   <body>
     <nav id="nav-bar">
       <a href="index.html"><h1>Project Movie</h1></a>
-      <nav id="category-nav">
-        <ul id="category-nav-list">
-          <li><button class="category-nav-btn" id="popular-btn">Popular</button></li>
-          <li><button class="category-nav-btn" id="now-playing-btn">Now Playing</button></li>
-          <li><buttona class="category-nav-btn" id="top-rated-btn">Top Rated</button></li>
-          <li><button class="category-nav-btn" id="upcoming-btn">Upcoming</button></li>
-        </ul>
-      </nav>
       <div id="search-container">
         <input id="search-input" type="text" placeholder="Search content" autocomplete="off">
         <button id="search-button">
           <i class="fa-solid fa-magnifying-glass" style="color: #35363a;"></i>
         </button>
       </div>
+    </nav>
+    <nav id="category-nav">
+      <ul id="category-nav-list">
+        <li><button class="category-nav-btn" id="popular-btn">Popular</button></li>
+        <li><button class="category-nav-btn" id="now-playing-btn">Now Playing</button></li>
+        <li><buttona class="category-nav-btn" id="top-rated-btn">Top Rated</button></li>
+        <li><button class="category-nav-btn" id="upcoming-btn">Upcoming</button></li>
+      </ul>
     </nav>
     <main>
       <heading>
@@ -41,6 +41,7 @@
         <button id="load-more-btn">Load More</button>
       </div>
     </main>
-    <script src="scripts/index.js"></script>
+    <script src="scripts/index.js" type="module"></script>
+    <script src="scripts/config.js" type="module"></script>
   </body>
 </html>

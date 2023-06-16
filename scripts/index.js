@@ -1,5 +1,7 @@
+import { options } from "./config.js";
+
 var initialAPIUrl = "https://api.themoviedb.org/3/trending/movie/day";
-let initialUrl = window.location.href.split('?')[0];
+let initialUrl = window.location.href.split('/')[0];
 console.log(initialUrl);
 
 let contentContainer = document.getElementById("content-container");
@@ -50,14 +52,6 @@ switch(listParam) {
 const paramsObject = {
   content: "popular"
 }
-
-const options = {
-  method: 'GET',
-  headers: {
-    accept: 'application/json',
-    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiNzI3OTUyMWQ2OGZhMGU3ZmMwNzYyYWRkNTBkOWIyYSIsInN1YiI6IjY0Njg1YmY1MDA2YjAxMDBlNmI0MDY0ZCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.JXmoEYsUAEX4uHnSnIrzR5tTN0yg3lV2fau5Jc-g2nk'
-  }
-};
 
 async function loadData(url, page) {
   const response = await fetch(initialAPIUrl + "?page=" + page, options);

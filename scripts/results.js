@@ -1,7 +1,7 @@
 const url = window.location.search;
 const searchParam = new URLSearchParams(url).get("search");
 document.title = searchParam + " | Project Movie";
-let initialUrl = "http://127.0.0.1:5500/";
+let initialUrl = window.location.href.split('/')[0];
 
 const loadMoreElement = document.getElementById("load-more-btn");
 const loadingElement = document.getElementById("loading-text");
