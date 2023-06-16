@@ -3,7 +3,7 @@ import { options } from "./config.js";
 const url = window.location.search;
 const searchParam = new URLSearchParams(url).get("search");
 document.title = searchParam + " | Project Movie";
-let initialUrl = window.location.href.split('/')[0];
+let initialUrl = window.location.href.substring(0, location.href.lastIndexOf("/")+1)
 
 const loadMoreElement = document.getElementById("load-more-btn");
 const loadingElement = document.getElementById("loading-text");

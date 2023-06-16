@@ -5,7 +5,7 @@ const contentDescription = document.getElementById("content-description");
 const image = document.getElementById("poster-img");
 const contentInfo = document.getElementById("content-info");
 
-let initialUrl = window.location.href.split('/')[0];
+let initialUrl = window.location.href.substring(0, location.href.lastIndexOf("/")+1)
 
 const url = window.location.search;
 const contentID = new URLSearchParams(url).get("id");

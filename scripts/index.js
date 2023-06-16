@@ -1,8 +1,7 @@
 import { options } from "./config.js";
 
 var initialAPIUrl = "https://api.themoviedb.org/3/trending/movie/day";
-let initialUrl = window.location.href.split('/')[0];
-console.log(initialUrl);
+let initialUrl = window.location.href.substring(0, location.href.lastIndexOf("/")+1)
 
 let contentContainer = document.getElementById("content-container");
 
@@ -59,7 +58,6 @@ async function loadData(url, page) {
   if (page >= data.total_pages || page >= 500) {
     loadMoreElement.remove();
   }
-  console.log(data);
   createContainers(data);
   loadingElement.remove();
 }
