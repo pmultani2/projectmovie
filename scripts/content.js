@@ -22,6 +22,7 @@ async function getData(url) {
   image.setAttribute("src", (data.poster_path === null ? "https://t4.ftcdn.net/jpg/02/51/95/53/360_F_251955356_FAQH0U1y1TZw3ZcdPGybwUkH90a3VAhb.jpg" : "https://image.tmdb.org/t/p/original/" + data.poster_path));
   backgroundElement.style.backgroundImage = "url('https://image.tmdb.org/t/p/original/" + data.backdrop_path + "')";
   backgroundElement.style.backgroundSize = "cover";
+  backgroundElement.style.backgroundPosition = "center";
   document.title = data.title + " | Project Movie";
 }
 
