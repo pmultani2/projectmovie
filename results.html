@@ -26,8 +26,14 @@
       <heading>
         <h1 id="content-heading">Results for </h1>
       </heading>
-      <h1 id="loading-text" style="text-align: center">Loading</h1>
       <div id="content-container">
+        <template id="single-container-template">
+          <div class="single-container skeleton">
+            <h2 class="movie-title skeleton" id="single-container-title"></h2>
+            <span class="movie-title skeleton" id="single-container-year"></span>
+            <span class="movie-title skeleton" id="single-container-average"></span>
+          </div>
+        </template>
       </div>
       <div id="btn-container">
         <button id="load-more-btn">Load More</button>

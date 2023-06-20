@@ -109,7 +109,7 @@ body {
 }
 
 #load-more-btn {
-  border: 1px solid white;
+  border: none;
   border-radius: 15px;
   padding-left: 0.75em;
   padding-right: 0.75em;
@@ -124,14 +124,14 @@ body {
 }
 
 .skeleton {
-  animation: skeleton-loading 1s linear infinite alternate;
+  animation: skeleton-loading 0.75s linear infinite alternate;
 }
 
 @keyframes skeleton-loading {
   0% {
-    background-color: hsl(0, 0%, 13%)
+    background-color: hsl(0, 0%, 26%)
   }
   100% {
-    background-color: hsl(0, 0%, 29%);
+    background-color: hsl(0, 0%, 15%);
   }
 }

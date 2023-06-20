@@ -6,18 +6,22 @@ document.title = searchParam + " | Project Movie";
 let initialUrl = window.location.href.substring(0, location.href.lastIndexOf("/")+1)
 
 const loadMoreElement = document.getElementById("load-more-btn");
-const loadingElement = document.getElementById("loading-text");
 
 let page = 1;
 
 const contentContainer = document.getElementById("content-container");
+const containerTemplate = document.getElementById("single-container-template");
 const heading = document.getElementById("content-heading");
 heading.innerText += " \"" + searchParam + "\"";
 
 async function loadResults(page) {
+  for (let i = 0; i < 20; i ++) {
+    const singleContainer = containerTemplate.content.cloneNode(true);
+    contentContainer.appendChild(singleContainer);
+  }
+
   const response = await fetch('https://api.themoviedb.org/3/search/movie?query=' + searchParam.toLowerCase() + '&include_adult=false&language=en-US&page=' + page, options);
   const data = await response.json();
-  loadingElement.remove();
   if (page == data.total_pages || page >= 500) {
     loadMoreElement.remove();
   }
@@ -49,6 +53,9 @@ function createContainers(data) {
     singleContainer.appendChild(containerHeader);
     singleContainer.appendChild(containerYear);
     singleContainer.appendChild(containerAverage);
+    if (contentContainer.querySelector(".skeleton")) {
+      contentContainer.removeChild(contentContainer.querySelector(".skeleton"));
+    }
     contentContainer.appendChild(singleContainer);
 
     singleContainer.onclick = function() {

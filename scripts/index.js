@@ -4,6 +4,7 @@ var initialAPIUrl = "https://api.themoviedb.org/3/trending/movie/day";
 let initialUrl = window.location.href.substring(0, location.href.lastIndexOf("/")+1)
 
 let contentContainer = document.getElementById("content-container");
+const containerTemplate = document.getElementById("single-container-template");
 
 let contentHeading = document.getElementById("content-heading");
 
@@ -19,8 +20,6 @@ const searchParams = new URLSearchParams(url);
 const listParam  = searchParams.get("list");
 
 let page = 1;
-
-const loadingElement = document.getElementById("loading-text");
 
 switch(listParam) {
   case "popular":
@@ -53,17 +52,20 @@ const paramsObject = {
 }
 
 async function loadData(url, page) {
+  for (let i = 0; i < 20; i++) {
+    const singleContainer = containerTemplate.content.cloneNode(true);
+    contentContainer.appendChild(singleContainer);
+  }
+  
   const response = await fetch(initialAPIUrl + "?page=" + page, options);
   const data = await response.json();
   if (page >= data.total_pages || page >= 500) {
     loadMoreElement.remove();
   }
   createContainers(data);
-  loadingElement.remove();
 }
 
 loadData(initialAPIUrl, page);
-
 function createContainers(data) {
   for (let i = 0; i < data.results.length; i ++) {
     let singleContainer = document.createElement("div");
@@ -87,6 +89,9 @@ function createContainers(data) {
     singleContainer.appendChild(containerHeader);
     singleContainer.appendChild(containerYear);
     singleContainer.appendChild(containerAverage);
+    if (contentContainer.querySelector(".skeleton")) {
+      contentContainer.removeChild(contentContainer.querySelector(".skeleton"));
+    }
     contentContainer.appendChild(singleContainer);
 
     singleContainer.onclick = function() {
