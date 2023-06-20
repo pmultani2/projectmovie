@@ -19,13 +19,19 @@ async function loadResults(page) {
     const singleContainer = containerTemplate.content.cloneNode(true);
     contentContainer.appendChild(singleContainer);
   }
-
   const response = await fetch('https://api.themoviedb.org/3/search/movie?query=' + searchParam.toLowerCase() + '&include_adult=false&language=en-US&page=' + page, options);
   const data = await response.json();
+
   if (page == data.total_pages || page >= 500) {
     loadMoreElement.remove();
   }
   createContainers(data);
+  for (let i = 0; i < contentContainer.childNodes.length; i ++) {
+    if (contentContainer.querySelector(".skeleton")) {
+      contentContainer.removeChild(contentContainer.querySelector(".skeleton"));
+    }
+    
+  }
 }
 
 loadResults(page);

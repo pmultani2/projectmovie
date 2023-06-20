@@ -56,13 +56,19 @@ async function loadData(url, page) {
     const singleContainer = containerTemplate.content.cloneNode(true);
     contentContainer.appendChild(singleContainer);
   }
-  
+
   const response = await fetch(initialAPIUrl + "?page=" + page, options);
   const data = await response.json();
   if (page >= data.total_pages || page >= 500) {
     loadMoreElement.remove();
   }
   createContainers(data);
+  for (let i = 0; i < contentContainer.childNodes.length; i ++) {
+    if (contentContainer.querySelector(".skeleton")) {
+      contentContainer.removeChild(contentContainer.querySelector(".skeleton"));
+    }
+    
+  }
 }
 
 loadData(initialAPIUrl, page);
