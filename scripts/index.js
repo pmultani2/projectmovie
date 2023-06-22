@@ -4,7 +4,6 @@ var initialAPIUrl = "https://api.themoviedb.org/3/trending/movie/day";
 let initialUrl = window.location.href.substring(0, location.href.lastIndexOf("/")+1)
 
 let contentContainer = document.getElementById("content-container");
-const containerTemplate = document.getElementById("single-container-template");
 
 let contentHeading = document.getElementById("content-heading");
 
@@ -52,74 +51,52 @@ const paramsObject = {
 }
 
 async function loadData(url, page) {
-  for (let i = 0; i < 20; i++) {
-    const singleContainer = containerTemplate.content.cloneNode(true);
-    contentContainer.appendChild(singleContainer);
-  }
-
   const response = await fetch(initialAPIUrl + "?page=" + page, options);
   const data = await response.json();
   if (page >= data.total_pages || page >= 500) {
     loadMoreElement.remove();
   }
   createContainers(data);
-  for (let i = 0; i < contentContainer.childNodes.length; i ++) {
-    if (contentContainer.querySelector(".skeleton")) {
-      contentContainer.removeChild(contentContainer.querySelector(".skeleton"));
-    }
-    
-  }
 }
 
 loadData(initialAPIUrl, page);
 function createContainers(data) {
   for (let i = 0; i < data.results.length; i ++) {
-    let singleContainer = document.createElement("div");
+    const singleContainer = document.createElement("div");
     singleContainer.className = "single-container";
 
-    let containerHeader = document.createElement("h2");
-    containerHeader.className = "movie-title";
-    containerHeader.innerText = data.results[i].title;
+    const posterImage = document.createElement("img");
+    posterImage.src = (data.results[i].poster_path === null ? "https://t4.ftcdn.net/jpg/02/51/95/53/360_F_251955356_FAQH0U1y1TZw3ZcdPGybwUkH90a3VAhb.jpg" : "https://image.tmdb.org/t/p/original/" + data.results[i].poster_path); 
+    posterImage.className = "content-poster";
+    singleContainer.appendChild(posterImage);
 
-    let containerYear = document.createElement("span");
-    containerYear.innerText = data.results[i].release_date.substring(0, 4);
-    containerYear.className = "movie-title";
+    const containerTitle = document.createElement("span");
+    containerTitle.className = "movie-title";
+    containerTitle.innerText = data.results[i].title;
+    singleContainer.appendChild(containerTitle);
 
-    let containerAverage = document.createElement("span");
-    containerAverage.innerText = (data.results[i].vote_average == 0 ? "Not Rated" :  parseInt(data.results[i].vote_average*10) + "%");
-    containerAverage.className = "movie-title";
-
-    let imagePath = (data.results[i].poster_path === null ? "https://t4.ftcdn.net/jpg/02/51/95/53/360_F_251955356_FAQH0U1y1TZw3ZcdPGybwUkH90a3VAhb.jpg" : "https://image.tmdb.org/t/p/original/" + data.results[i].poster_path); 
-    singleContainer.style.backgroundImage = "url(" + imagePath + ")";
-
-    singleContainer.appendChild(containerHeader);
-    singleContainer.appendChild(containerYear);
-    singleContainer.appendChild(containerAverage);
-    if (contentContainer.querySelector(".skeleton")) {
-      contentContainer.removeChild(contentContainer.querySelector(".skeleton"));
-    }
     contentContainer.appendChild(singleContainer);
 
     singleContainer.onclick = function() {
-      window.location.href = initialUrl + "content.html?" + "id=" + data.results[i].id;
+      window.location.href = "content.html?" + "id=" + data.results[i].id;
     }
   }
 }
 
 popularButton.onclick = function() {
-  window.location.href = initialUrl + "?list=popular"
+  window.location.href = "?list=popular"
 }
 
 nowPlayingButton.onclick = function() {
-  window.location.href = initialUrl + "?list=now_playing";
+  window.location.href = "?list=now_playing";
 }
 
 topRatedButton.onclick = function() {
-  window.location.href = initialUrl + "?list=top_rated";
+  window.location.href = "?list=top_rated";
 }
 
 upcomingButton.onclick = function() {
-  window.location.href = initialUrl + "?list=upcoming";
+  window.location.href = "?list=upcoming";
 }
 
 loadMoreElement.onclick = function() {
@@ -136,7 +113,7 @@ input.addEventListener("keypress", function(event) {
 });
 
 inputButton.onclick = function() {
-  window.location.href = initialUrl + "results.html?search=" + input.value;
+  window.location.href = "results.html?search=" + input.value;
 }
 
 

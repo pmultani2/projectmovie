@@ -57,36 +57,22 @@
 
 .single-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
-  font-size: calc(1vw * 32px);
-  background-color: black;
-  color: white;
-  border-radius: 0.5em;
-  border: 1px solid white;
-  background-color: black;
-  background-size: cover;
+
+}
+
+.content-poster {
+  width: 100%;
   aspect-ratio: 2 / 3;
-  background-position: center;
-  flex-wrap: wrap;
-  overflow: hidden;
-  transition: opacity 0.2s;
-  text-align: center;
-  padding: 1em;
+  border: 1px solid white;
+  border-radius: 0.5em;
+  object-fit: cover;
+  object-position: center;
 }
 
 .single-container:hover {
   opacity: 50%;
   cursor: pointer;
-}
-
-.movie-title {
-  text-shadow:
-		-1px -1px 0 #000,
-		1px -1px 0 #000,
-		-1px 1px 0 #000,
-		1px 1px 0 #000;
 }
 
 @media only screen and (max-width: 600px) {
