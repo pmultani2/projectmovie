@@ -3,7 +3,7 @@ import { options } from "./config.js";
 const contentTitle = document.getElementById("content-title");
 const contentDescription = document.getElementById("content-description");
 const image = document.getElementById("poster-img");
-const contentInfo = document.getElementById("content-info");
+let contentInfo = document.getElementById("content-info");
 const budgetSpan = document.getElementById("budget-span");
 const boxOfficeSpan = document.getElementById("box-office-span");
 const ratingCircle = document.getElementById("rating-circle");
@@ -33,29 +33,71 @@ async function getData(url) {
   } else {
     contentDescription.innerText = data.overview;
   }
-  contentInfo.innerText = data.release_date.substring(0, 4) + ", " + data.genres.map(genre => genre.name).join("/") + ", " + data.runtime + "m";
+
+  if (data.release_date != "") {
+    contentInfo.innerText = data.release_date.substring(0, 4);
+  }
+  if (data.genres.length > 0) {
+    contentInfo.innerText += ", " + data.genres.map(genre => genre.name).join("/");
+  }
+  if (data.runtime != 0) {
+    contentInfo.innerText += ", " + data.runtime + "m";
+  }
+  if (contentInfo.length == 0) {
+    contentInfo.remove();
+  }
+  
   image.setAttribute("src", (data.poster_path === null ? "https://t4.ftcdn.net/jpg/02/51/95/53/360_F_251955356_FAQH0U1y1TZw3ZcdPGybwUkH90a3VAhb.jpg" : "https://image.tmdb.org/t/p/original/" + data.poster_path));
   backgroundElement.style.backgroundImage = "url('https://image.tmdb.org/t/p/original/" + data.backdrop_path + "')";
   backgroundElement.style.backgroundSize = "cover";
   backgroundElement.style.backgroundPosition = "center";
-  budgetSpan.innerText = (data.budget == 0 ? "N/A" : "$" + data.budget.toLocaleString());
-  boxOfficeSpan.innerText = (data.revenue == 0 ? "N/A" : "$" + data.revenue.toLocaleString());
+
+  if (data.budget == 0) {
+    budgetSpan.parentElement.remove();
+  } else {
+    budgetSpan.innerText = (data.budget == 0 ? "N/A" : "$" + data.budget.toLocaleString());
+  }
+
+  if (data.revenue == 0) {
+    boxOfficeSpan.parentElement.remove();
+  } else {
+    boxOfficeSpan.innerText = (data.revenue == 0 ? "N/A" : "$" + data.revenue.toLocaleString());
+  }
+  
 
   const rating = data.vote_average*10;
   if (rating >= 80) {
     ratingCircle.style.backgroundColor = "green";
   } else if (rating >= 70) {
     ratingCircle.style.backgroundColor = "#FFCC00";
-  } else if (rating == 0) {
-    ratingCircle.style.backgroundColor = "black";
   } else {
     ratingCircle.style.backgroundColor = "red";
   }
 
-  ratingSpan.innerText = (rating == 0 ? "N/A" : parseInt(data.vote_average *10) + "%");
-  basedOnSpan.innerText = data.vote_count.toLocaleString();
-  directedBySpan.innerText = data.credits.crew.find(element => element.job === "Director").name;
-  producedSpan.innerText = data.production_companies.map(company => company.name).join(', ');
+  if (rating == 0) {
+    ratingCircle.parentElement.remove();
+  } else {
+    ratingSpan.innerText = parseInt(data.vote_average *10) + "%";
+    basedOnSpan.innerText = data.vote_count.toLocaleString();
+  }
+
+  if (data.credits.crew.length > 0) {
+    const director = data.credits.crew.find(element => element.job === "Director").name;
+    if (director == "") {
+      directedBySpan.parentElement.remove();
+    } else {
+      directedBySpan.innerText = director;
+    }
+  } else {
+    directedBySpan.parentElement.remove();
+  }
+
+  if (data.production_companies.length > 0) {
+    producedSpan.innerText = data.production_companies.map(company => company.name).join(', ');    
+  } else {
+    producedSpan.parentElement.remove();
+  }
+
 
   if (data.credits.cast.length > 0) {
     for (let i = 0; i < data.credits.cast.length; i ++) {
@@ -87,13 +129,15 @@ async function getData(url) {
   if (data.videos.results.length > 0) {
     for (let i = 0; i < data.videos.results.length; i ++) {
       const video = data.videos.results[i];
-      const youtubeKey = video.key;
-      const youtubeLink = "https://www.youtube-nocookie.com/embed/" + youtubeKey + "?SameSite=Strict";
-      const videoElement = document.createElement("iframe");
-      videoElement.src = youtubeLink;
-      videoElement.allowFullscreen = true;
-      
-      videoDiv.appendChild(videoElement);
+      if (video.site == "YouTube") {
+        const youtubeKey = video.key;
+        const youtubeLink = "https://www.youtube-nocookie.com/embed/" + youtubeKey + "?SameSite=Strict";
+        const videoElement = document.createElement("iframe");
+        videoElement.src = youtubeLink;
+        videoElement.allowFullscreen = true;
+        
+        videoDiv.appendChild(videoElement);
+      }
     }
   } else {
     videoDiv.previousElementSibling.remove();
