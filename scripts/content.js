@@ -10,6 +10,7 @@ const ratingCircle = document.getElementById("rating-circle");
 const ratingSpan = document.getElementById("rating-span");
 const basedOnSpan = document.getElementById("based-on-span");
 const contentCastList = document.getElementById("content-cast");
+const releaseSpan = document.getElementById("release-date-span");
 const directedBySpan = document.getElementById("director-span");
 const producedSpan = document.getElementById("producer-span");
 const videoDiv = document.getElementById("videos-container");
@@ -48,6 +49,12 @@ async function getData(url) {
     }
     if (contentInfo.innerText.length == 0) {
       contentInfo.remove();
+    }
+
+    if (data.release_date == "") {
+      releaseSpan.parentElement.remove();
+    } else {
+      releaseSpan.innerText = new Date(data.release_date).toLocaleDateString();
     }
     
     image.setAttribute("src", (data.poster_path === null ? "https://t4.ftcdn.net/jpg/02/51/95/53/360_F_251955356_FAQH0U1y1TZw3ZcdPGybwUkH90a3VAhb.jpg" : "https://image.tmdb.org/t/p/original/" + data.poster_path));
