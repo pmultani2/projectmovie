@@ -1,66 +1,41 @@
 import { options } from "./config.js";
 
-var initialAPIUrl = "https://api.themoviedb.org/3/trending/movie/day";
-let initialUrl = window.location.href.substring(0, location.href.lastIndexOf("/")+1)
+const trendingContainer = document.getElementById("trending-container");
+const popularContainer = document.getElementById("popular-container");
+const nowPlayingContainer = document.getElementById("now-playing-container");
+const topRatedContainer = document.getElementById("top-rated-container");
+const upcomingContainer = document.getElementById("upcoming-container");
 
-let contentContainer = document.getElementById("content-container");
+const trendingLoadMoreButton = document.getElementById("trending-load-more-btn");
+const popularLoadMoreButton = document.getElementById("popular-load-more-btn");
+const nowPlayingLoadMoreButton = document.getElementById("now-playing-load-more-btn");
+const topRatedLoadMoreButton = document.getElementById("top-rated-load-more-btn");
+const upcomingLoadMoreButton = document.getElementById("upcoming-load-more-btn");
 
-let contentHeading = document.getElementById("content-heading");
+let trendingPage = 1;
+let popularPage = 1;
+let nowPlayingPage = 1;
+let topRatedPage = 1;
+let upcomingPage = 1;
 
-const loadMoreElement = document.getElementById("load-more-btn");
+loadData("https://api.themoviedb.org/3/trending/movie/day", trendingPage, trendingContainer, trendingLoadMoreButton);
+loadData("https://api.themoviedb.org/3/movie/popular", popularPage, popularContainer, popularLoadMoreButton);
+loadData("https://api.themoviedb.org/3/movie/now_playing", nowPlayingPage, nowPlayingContainer, nowPlayingLoadMoreButton);
+loadData("https://api.themoviedb.org/3/movie/top_rated", topRatedPage, topRatedContainer, topRatedLoadMoreButton);
+loadData("https://api.themoviedb.org/3/movie/upcoming", upcomingPage, upcomingContainer, upcomingLoadMoreButton);
 
-let popularButton = document.getElementById("popular-btn");
-let nowPlayingButton = document.getElementById("now-playing-btn");
-let topRatedButton = document.getElementById("top-rated-btn");
-let upcomingButton = document.getElementById("upcoming-btn");
-
-const url = window.location.search;
-const searchParams = new URLSearchParams(url);
-const listParam  = searchParams.get("list");
-
-let page = 1;
-
-switch(listParam) {
-  case "popular":
-    initialAPIUrl = "https://api.themoviedb.org/3/movie/popular";
-    contentHeading.innerText = "Popular Movies"
-    document.title = "Popular | Project Movie";
-    break;
-  case "now_playing":
-    initialAPIUrl = "https://api.themoviedb.org/3/movie/now_playing";
-    contentHeading.innerText = "Now Playing Movies"
-    document.title = "Now Playing | Project Movie";
-    break;
-  case "top_rated":
-    initialAPIUrl = "https://api.themoviedb.org/3/movie/top_rated";
-    contentHeading.innerText = "Top Rated Movies"
-    document.title = "Top Rated | Project Movie";
-    break;
-  case "upcoming":
-    initialAPIUrl = "https://api.themoviedb.org/3/movie/upcoming";
-    contentHeading.innerText = "Upcoming Movies"
-    document.title = "Upcoming | Project Movie";
-    break;
-  default:
-    initialAPIUrl = "https://api.themoviedb.org/3/trending/movie/day";
-    contentHeading.innerText = "Trending Movies"
-}
-
-const paramsObject = {
-  content: "popular"
-}
-
-async function loadData(url, page) {
-  const response = await fetch(initialAPIUrl + "?page=" + page, options);
+async function loadData(url, page, container, button) {
+  const response = await fetch(url + "?page=" + page, options);
   const data = await response.json();
-  if (page >= data.total_pages || page >= 500) {
-    loadMoreElement.remove();
+
+  if (page == data.total_pages || page >= 500) {
+    button.remove();
   }
-  createContainers(data);
+
+  createContainers(data, container, button, url, page);
 }
 
-loadData(initialAPIUrl, page);
-function createContainers(data) {
+function createContainers(data, container, button, url, page) {
   for (let i = 0; i < data.results.length; i ++) {
     const singleContainer = document.createElement("div");
     singleContainer.className = "single-container";
@@ -75,32 +50,15 @@ function createContainers(data) {
     containerTitle.innerText = data.results[i].title;
     singleContainer.appendChild(containerTitle);
 
-    contentContainer.appendChild(singleContainer);
+    container.insertBefore(singleContainer, button);
 
     singleContainer.onclick = function() {
       window.location.href = "content.html?" + "id=" + data.results[i].id;
     }
   }
-}
-
-popularButton.onclick = function() {
-  window.location.href = "?list=popular"
-}
-
-nowPlayingButton.onclick = function() {
-  window.location.href = "?list=now_playing";
-}
-
-topRatedButton.onclick = function() {
-  window.location.href = "?list=top_rated";
-}
-
-upcomingButton.onclick = function() {
-  window.location.href = "?list=upcoming";
-}
-
-loadMoreElement.onclick = function() {
-  loadData(initialAPIUrl, page += 1);
+  button.onclick = function() {
+    loadData(url, page += 1, container, button);
+  }
 }
 
 const input = document.getElementById("search-input");
