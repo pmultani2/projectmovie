@@ -24,14 +24,14 @@
 .content-poster {
   width: 100%;
   aspect-ratio: 2 / 3;
-  border: 1px solid white;
+  border: 1px solid var(--border-color);
   border-radius: 0.5em;
   object-fit: cover;
   object-position: center;
 }
 
 #load-more-btn {
-  border: none;
+  border: 1px solid var(--border-color);
   border-radius: 15px;
   padding-left: 0.75em;
   padding-right: 0.75em;

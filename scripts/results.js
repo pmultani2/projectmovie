@@ -65,3 +65,24 @@ inputButton.onclick = function() {
 loadMoreElement.onclick = function() {
   loadResults(page += 1);
 };
+
+const root = document.querySelector(":root");
+const themeSelect = document.getElementById("select-theme");
+const localTheme = localStorage.getItem("theme");
+
+for (let i = 0; i < themeSelect.options.length; i ++) {
+  if (themeSelect.options[i].value == localTheme) themeSelect.value = localTheme;
+}
+
+const theme = JSON.parse(themeSelect.value);
+root.style.setProperty("--background-color", theme.background);
+root.style.setProperty("--font-color", theme.color);
+root.style.setProperty("--border-color", theme.border);
+
+themeSelect.onchange = function() {
+  const theme = JSON.parse(themeSelect.value);
+  root.style.setProperty("--background-color", theme.background);
+  root.style.setProperty("--font-color", theme.color);
+  root.style.setProperty("--border-color", theme.border);
+  localStorage.setItem("theme", JSON.stringify(theme));
+};

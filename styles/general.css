@@ -1,5 +1,7 @@
 :root {
   --background-color: rgb(53,54,58);
+  --font-color: rgb(255, 255, 255);
+  --border-color: rgb(255, 255, 255);
 }
 
 html, body {
@@ -28,6 +30,7 @@ body {
 
 main {
   flex: 1 0 auto;
+  color: var(--font-color);
 }
 
 #nav-bar a {
