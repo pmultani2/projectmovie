@@ -4,13 +4,12 @@ const contentTitle = document.getElementById("content-title");
 const contentDescription = document.getElementById("content-description");
 const image = document.getElementById("poster-img");
 let contentInfo = document.getElementById("content-info");
-const budgetSpan = document.getElementById("budget-span");
-const boxOfficeSpan = document.getElementById("box-office-span");
 const ratingCircle = document.getElementById("rating-circle");
 const ratingSpan = document.getElementById("rating-span");
 const basedOnSpan = document.getElementById("based-on-span");
 const contentCastList = document.getElementById("content-cast");
-const releaseSpan = document.getElementById("release-date-span");
+const firstAiredSpan = document.getElementById("first-aired-span");
+const lastAiredSpan = document.getElementById("last-aired-span");
 const directedBySpan = document.getElementById("director-span");
 const producedSpan = document.getElementById("producer-span");
 const videoDiv = document.getElementById("videos-container");
@@ -24,11 +23,11 @@ const contentID = new URLSearchParams(url).get("id");
 const backgroundElement = document.getElementById("background-div");
 
 async function getData(url) {
-  const response = await fetch("https://api.themoviedb.org/3/movie/" + contentID + "?append_to_response=credits,videos,recommendations", options);
+  const response = await fetch("https://api.themoviedb.org/3/tv/" + contentID + "?append_to_response=credits,videos,recommendations", options);
   const data = await response.json();
 
   if (response.status != 404) {
-    contentTitle.innerText = data.title;
+    contentTitle.innerText = data.name;
     if (data.overview == "") {
       contentDescription.previousElementSibling.remove();
       contentDescription.remove();
@@ -36,44 +35,36 @@ async function getData(url) {
       contentDescription.innerText = data.overview;
     }
 
-    if (data.release_date != "") {
-      contentInfo.innerText = data.release_date.substring(0, 4);
+    if (data.first_air_date != "") {
+      contentInfo.innerText = data.first_air_date.substring(0, 4);
     }
     if (data.genres.length > 0) {
       if (contentInfo.innerText.length > 0) contentInfo.innerText += ", ";
       contentInfo.innerText += data.genres.map(genre => genre.name).join("/");
     }
-    if (data.runtime != 0) {
+    if (data.number_of_seasons != 0) {
       if (contentInfo.innerText.length > 0) contentInfo.innerText += ", ";
-      contentInfo.innerText += data.runtime + "m";
+      contentInfo.innerText += data.number_of_seasons + " season(s)";
     }
     if (contentInfo.innerText.length == 0) {
       contentInfo.remove();
     }
 
-    if (data.release_date == "") {
-      releaseSpan.parentElement.remove();
+    if (data.first_air_date == null || data.first_air_date == "") {
+      firstAiredSpan.parentElement.remove();
     } else {
-      releaseSpan.innerText = new Date(data.release_date).toLocaleDateString();
+      firstAiredSpan.innerText = new Date(data.first_air_date).toLocaleDateString();
+    }
+    if (data.last_air_date == null || data.last_air_date == "") {
+      lastAiredSpan.parentElement.remove();
+    } else {
+      lastAiredSpan.innerText = new Date(data.last_air_date).toLocaleDateString();
     }
     
     image.setAttribute("src", (data.poster_path === null ? "https://t4.ftcdn.net/jpg/02/51/95/53/360_F_251955356_FAQH0U1y1TZw3ZcdPGybwUkH90a3VAhb.jpg" : "https://image.tmdb.org/t/p/original/" + data.poster_path));
     backgroundElement.style.backgroundImage = "url('https://image.tmdb.org/t/p/original/" + data.backdrop_path + "')";
     backgroundElement.style.backgroundSize = "cover";
     backgroundElement.style.backgroundPosition = "center";
-
-    if (data.budget == 0) {
-      budgetSpan.parentElement.remove();
-    } else {
-      budgetSpan.innerText = (data.budget == 0 ? "N/A" : "$" + data.budget.toLocaleString());
-    }
-
-    if (data.revenue == 0) {
-      boxOfficeSpan.parentElement.remove();
-    } else {
-      boxOfficeSpan.innerText = (data.revenue == 0 ? "N/A" : "$" + data.revenue.toLocaleString());
-    }
-    
 
     const rating = data.vote_average*10;
     if (rating >= 80) {
@@ -163,13 +154,13 @@ async function getData(url) {
         singleContainer.appendChild(containerImage);
     
         const contentName = document.createElement("span");
-        contentName.innerText = recommendation.title;
+        contentName.innerText = recommendation.name;
         singleContainer.appendChild(contentName);
         
         seeAlsoDiv.appendChild(singleContainer);
     
         singleContainer.onclick = function() {
-          window.location.href = initialUrl + "content.html?id=" + recommendation.id;
+          window.location.href = initialUrl + "tvcontent.html?id=" + recommendation.id;
         }
       }
     } else {
@@ -178,7 +169,7 @@ async function getData(url) {
     }
     
 
-    document.title = data.title + " | Project Movie";
+    document.title = data.name + " | Project Movie";
   } else {
     window.location.href = "index.html";
   }
@@ -196,7 +187,7 @@ input.addEventListener("keypress", function(event) {
 });
 
 inputButton.onclick = function() {
-  window.location.href = initialUrl + "results.html?search=" + input.value + "&list=movie";
+  window.location.href = initialUrl + "results.html?search=" + input.value + "&list=tv";
 }
 
 const root = document.querySelector(":root");

@@ -1,31 +1,31 @@
 import { options } from "./config.js";
 
-const trendingContainer = document.getElementById("trending-container");
-const popularContainer = document.getElementById("popular-container");
-const nowPlayingContainer = document.getElementById("now-playing-container");
-const topRatedContainer = document.getElementById("top-rated-container");
-const upcomingContainer = document.getElementById("upcoming-container");
+const trendingSeriesContainer = document.getElementById("trending-series-container");
+const airingTodaySeriesContainer = document.getElementById("airing-today-series-container");
+const onTheAirSeriesContainer = document.getElementById("on-the-air-series-container");
+const popularSeriesContainer = document.getElementById("popular-series-container");
+const topRatedSeriesContainer = document.getElementById("top-rated-series-container");
 
-const trendingLoadMoreButton = document.getElementById("trending-load-more-btn");
-const popularLoadMoreButton = document.getElementById("popular-load-more-btn");
-const nowPlayingLoadMoreButton = document.getElementById("now-playing-load-more-btn");
-const topRatedLoadMoreButton = document.getElementById("top-rated-load-more-btn");
-const upcomingLoadMoreButton = document.getElementById("upcoming-load-more-btn");
+const trendingSeriesLoadMoreButton = document.getElementById("trending-series-load-more-btn");
+const airingTodaySeriesLoadMoreButton = document.getElementById("airing-today-series-load-more-btn");
+const onTheAirSeriesLoadMoreButton = document.getElementById("on-the-air-series-load-more-btn");
+const popularSeriesLoadMoreButton = document.getElementById("popular-series-load-more-btn");
+const topRatedSeriesLoadMoreButton = document.getElementById("top-rated-series-load-more-btn");
 
-let trendingPage = 1;
-let popularPage = 1;
-let nowPlayingPage = 1;
-let topRatedPage = 1;
-let upcomingPage = 1;
+let trendingSeriesPage = 1;
+let airingTodaySeriesPage = 1;
+let onTheAirSeriesPage = 1;
+let popularSeriesPage = 1;
+let topRatedSeriesPage = 1;
 
-loadData("https://api.themoviedb.org/3/trending/movie/day", trendingPage, trendingContainer, trendingLoadMoreButton);
-loadData("https://api.themoviedb.org/3/movie/popular", popularPage, popularContainer, popularLoadMoreButton);
-loadData("https://api.themoviedb.org/3/movie/now_playing", nowPlayingPage, nowPlayingContainer, nowPlayingLoadMoreButton);
-loadData("https://api.themoviedb.org/3/movie/top_rated", topRatedPage, topRatedContainer, topRatedLoadMoreButton);
-loadData("https://api.themoviedb.org/3/movie/upcoming", upcomingPage, upcomingContainer, upcomingLoadMoreButton);
+loadData("https://api.themoviedb.org/3/trending/tv/day?language=en-US", trendingSeriesPage, trendingSeriesContainer, trendingSeriesLoadMoreButton);
+loadData("https://api.themoviedb.org/3/tv/airing_today?language=en-US", airingTodaySeriesPage, airingTodaySeriesContainer, airingTodaySeriesLoadMoreButton);
+loadData("https://api.themoviedb.org/3/tv/on_the_air?language=en-US", onTheAirSeriesPage, onTheAirSeriesContainer, onTheAirSeriesLoadMoreButton);
+loadData("https://api.themoviedb.org/3/tv/popular?language=en-US", popularSeriesPage, popularSeriesContainer, popularSeriesLoadMoreButton);
+loadData("https://api.themoviedb.org/3/tv/top_rated?language=en-US", topRatedSeriesPage, topRatedSeriesContainer, topRatedSeriesLoadMoreButton);
 
 async function loadData(url, page, container, button) {
-  const response = await fetch(url + "?page=" + page, options);
+  const response = await fetch(url + "&page=" + page, options);
   const data = await response.json();
 
   if (page == data.total_pages || page >= 500) {
@@ -47,13 +47,13 @@ function createContainers(data, container, button, url, page) {
 
     const containerTitle = document.createElement("span");
     containerTitle.className = "movie-title";
-    containerTitle.innerText = data.results[i].title;
+    containerTitle.innerText = data.results[i].name;
     singleContainer.appendChild(containerTitle);
 
     container.insertBefore(singleContainer, button);
 
     singleContainer.onclick = function() {
-      window.location.href = "content.html?" + "id=" + data.results[i].id;
+      window.location.href = "tvcontent.html?" + "id=" + data.results[i].id;
     }
   }
   button.onclick = function() {
@@ -71,7 +71,7 @@ input.addEventListener("keypress", function(event) {
 });
 
 inputButton.onclick = function() {
-  window.location.href = "results.html?search=" + input.value + "&list=movie";
+  window.location.href = "results.html?search=" + input.value + "&list=tv";
 }
 
 const root = document.querySelector(":root");

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Movie</title>
     <link rel="icon" href="images/favicon.png">
-    <link rel="stylesheet" href="styles/content.css">
+    <link rel="stylesheet" href="styles/index.css">
     <link rel="stylesheet" href="styles/general.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,7 @@
   </head>
   <body>
     <nav id="nav-bar">
-      <a href="index.html" id="home-link"><h1>Project Movie</h1></a>
+      <a href="tvhome.html" id="home-link"><h1>Project Movie</h1></a>
       <nav id="page-nav">
         <a href="index.html"><span>Movies</span></a>
         <a href="tvhome.html"><span>TV</span></a>
@@ -27,43 +27,43 @@
       </div>
     </nav>
     <main>
-      <div id="background-div">
-        <section id="content-info-section">
-          <div id="content-meta-wrapper">
-            <img id="poster-img" src="" alt="poster">
-            <p>Release date: <span id="release-date-span"></span></p>
-            <p>Directed by: <span id="director-span"></span></p>
-            <p>Production Companies: <span id="producer-span"></span></p>
-            <p id="budget-paragraph">Budget: <span id="budget-span">999,999,999</span></p>
-            <p id="box-office-paragraph">Box Office: <span id="box-office-span">999,999,999</span></p>
-            <div id="rating-div">
-              <div id="rating-circle">
-                <span id="rating-span">100</span>
-              </div>
-              <p id="based-on-p">Based on <span id="based-on-span">100</span> ratings</p>
-            </div>
-          </div>
-          <div id="content-text-wrapper">
-            <h1 id="content-title"></h1>
-            <span id="content-info"></span>
-            <h2>Summary</h2>
-            <p id="content-description"></p>
-            <h2>Cast</h2>
-            <div id="content-cast">
-            </div>
-            <h2>Videos</h2>
-            <div id="videos-container">
-            </div>
-            <h2>See Also</h2>
-            <div id="seealso-container">
-            </div>
-          </div>
-        </section>
+      <div id="background-container">
+        <h1>Trending Series</h1>
+        <div id="trending-series-container" class="row-container">
+          <button id="trending-series-load-more-btn" class="load-more-btn">
+            <i class="fa-solid fa-arrow-right" style="color: #000000;"></i>
+          </button>
+        </div>
+        <h1>Airing Today Series</h1>
+        <div id="airing-today-series-container" class="row-container">
+          <button id="airing-today-series-load-more-btn" class="load-more-btn">
+            <i class="fa-solid fa-arrow-right" style="color: #000000;"></i>
+          </button>
+        </div>
+        <h1>On The Air Series</h1>
+        <div id="on-the-air-series-container" class="row-container">
+          <button id="on-the-air-series-load-more-btn" class="load-more-btn">
+            <i class="fa-solid fa-arrow-right" style="color: #000000;"></i>
+          </button>
+        </div>
+        <h1>Popular Series</h1>
+        <div id="popular-series-container" class="row-container">
+          <button id="popular-series-load-more-btn" class="load-more-btn">
+            <i class="fa-solid fa-arrow-right" style="color: #000000;"></i>
+          </button>
+        </div>
+        <h1>Top Rated Series</h1>
+        <div id="top-rated-series-container" class="row-container">
+          <button id="top-rated-series-load-more-btn" class="load-more-btn">
+            <i class="fa-solid fa-arrow-right" style="color: #000000;"></i>
+          </button>
+        </div>
       </div>
     </main>
     <footer>
       <img src="images/themoviedblogo.svg">
       <p>This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
+      <label for="select-theme">Select Theme:</label>
       <select name="select-theme" id="select-theme">
         <option value='{"background":"rgb(255, 255, 255)","color":"rgb(0, 0, 0)","border":"rgb(0, 0, 0)"}'>Light Mode</option>
         <option value='{"background":"rgb(53, 54, 58)","color":"rgb(255, 255, 255)","border":"rgb(255, 255, 255)"}'>Google Dark Mode</option>
@@ -71,7 +71,7 @@
         <option value='{"background":"rgb(45, 67, 86)","color":"rgb(255, 255, 255)","border":"rgb(255, 255, 255)"}'>Blue Dark Mode</option>
       </select>
     </footer>
-    <script src="scripts/content.js" type="module"></script>
+    <script src="scripts/tvhome.js" type="module"></script>
     <script src="scripts/config.js" type="module"></script>
   </body>
 </html>

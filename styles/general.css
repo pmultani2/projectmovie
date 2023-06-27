@@ -28,6 +28,23 @@ body {
   z-index: 999;
 }
 
+#page-nav {
+  height: 100%;
+  display: flex;
+  gap: 1em;
+  align-items: center;
+}
+
+#page-nav a {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+#page-nav a:hover {
+  opacity: 50%;
+}
+
 main {
   flex: 1 0 auto;
   color: var(--font-color);
@@ -86,4 +103,15 @@ footer {
 footer img {
   width: 15%;
   object-fit: cover;
+}
+
+@media screen and (max-width: 600px) {
+  #home-link {
+    display: none;
+  }
+  
+  #nav-bar {
+    padding-top: .67em;
+    padding-bottom: .67em;
+  }
 }

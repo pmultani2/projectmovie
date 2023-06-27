@@ -2,6 +2,15 @@
   text-align: center;
 }
 
+#choose-search-div {
+  display: flex;
+  border-radius: 0.5em;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  padding: 1em;
+}
+
 #content-container {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -30,7 +39,7 @@
   object-position: center;
 }
 
-#load-more-btn {
+.results-btn {
   border: 1px solid var(--border-color);
   border-radius: 15px;
   padding-left: 0.75em;
@@ -40,7 +49,7 @@
   transition: opacity 0.25s;
 }
 
-#load-more-btn:hover {
+.results-btn:hover {
   cursor: pointer;
   opacity: 50%;
 }

@@ -1,9 +1,19 @@
 import { options } from "./config.js";
 
 const url = window.location.search;
-const searchParam = new URLSearchParams(url).get("search");
+const urlParams = new URLSearchParams(url);
+const searchParam = urlParams.get("search");
 document.title = searchParam + " | Project Movie";
-let initialUrl = window.location.href.substring(0, location.href.lastIndexOf("/")+1)
+const listParam = urlParams.get("list");
+
+const movieButton = document.getElementById("movie-btn");
+const tvButton = document.getElementById("tv-btn");
+movieButton.onclick = function () {
+  window.location.href = "results.html?search=" + searchParam + "&list=movie";
+}
+tvButton.onclick = function() {
+  window.location.href = "results.html?search=" + searchParam + "&list=tv";
+}
 
 const loadMoreElement = document.getElementById("load-more-btn");
 
@@ -15,7 +25,7 @@ const heading = document.getElementById("content-heading");
 heading.innerText += " \"" + searchParam + "\"";
 
 async function loadResults(page) {
-  const response = await fetch('https://api.themoviedb.org/3/search/movie?query=' + searchParam.toLowerCase() + '&include_adult=false&language=en-US&page=' + page, options);
+  const response = await fetch("https://api.themoviedb.org/3/search/" + listParam + "?query=" + searchParam.toLowerCase() + '&language=en-US&page=' + page, options);
   const data = await response.json();
 
   if (page == data.total_pages || page >= 500) {
@@ -38,13 +48,15 @@ function createContainers(data) {
   
     const containerTitle = document.createElement("span");
     containerTitle.className = "movie-title";
-    containerTitle.innerText = data.results[i].title;
+    if (listParam == "movie") containerTitle.innerText = data.results[i].title;
+    else if (listParam == "tv") containerTitle.innerText = data.results[i].name;
     singleContainer.appendChild(containerTitle);
   
     contentContainer.appendChild(singleContainer);
   
     singleContainer.onclick = function() {
-      window.location.href = "content.html?" + "id=" + data.results[i].id;
+      if (listParam == "movie") window.location.href = "content.html?" + "id=" + data.results[i].id;
+      else if (listParam == "tv") window.location.href = "tvcontent.html?" + "id=" + data.results[i].id;
     }
   }
 }
@@ -59,7 +71,7 @@ input.addEventListener("keypress", function(event) {
 });
 
 inputButton.onclick = function() {
-  window.location.href = "results.html?search=" + input.value;
+  window.location.href = "results.html?search=" + input.value + "&list=" + listParam;
 }
 
 loadMoreElement.onclick = function() {
