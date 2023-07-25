@@ -56,7 +56,7 @@ function createContainers(data) {
   
     singleContainer.onclick = function() {
       if (listParam == "movie") window.location.href = "movie?" + "id=" + data.results[i].id;
-      else if (listParam == "tv") window.location.href = "tv?" + "id=" + data.results[i].id;
+      else if (listParam == "tv") window.location.href = "series?" + "id=" + data.results[i].id;
     }
   }
 }
