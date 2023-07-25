@@ -180,7 +180,7 @@ async function getData(url) {
 
     document.title = data.title + " | Project Movie";
   } else {
-    window.location.href = "";
+    window.location.href = "/";
   }
 }
 

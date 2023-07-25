@@ -171,7 +171,7 @@ async function getData(url) {
 
     document.title = data.name + " | Project Movie";
   } else {
-    window.location.href = "";
+    window.location.href = "/";
   }
 }
 
