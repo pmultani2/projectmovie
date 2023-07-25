@@ -53,7 +53,7 @@ function createContainers(data, container, button, url, page) {
     container.insertBefore(singleContainer, button);
 
     singleContainer.onclick = function() {
-      window.location.href = "tvcontent.html?" + "id=" + data.results[i].id;
+      window.location.href = "series?" + "id=" + data.results[i].id;
     }
   }
   button.onclick = function() {
@@ -71,7 +71,7 @@ input.addEventListener("keypress", function(event) {
 });
 
 inputButton.onclick = function() {
-  window.location.href = "results.html?search=" + input.value + "&list=tv";
+  window.location.href = "results?search=" + input.value + "&list=tv";
 }
 
 const root = document.querySelector(":root");

@@ -169,7 +169,7 @@ async function getData(url) {
         seeAlsoDiv.appendChild(singleContainer);
     
         singleContainer.onclick = function() {
-          window.location.href = initialUrl + "content.html?id=" + recommendation.id;
+          window.location.href = "movie?id=" + recommendation.id;
         }
       }
     } else {
@@ -180,7 +180,7 @@ async function getData(url) {
 
     document.title = data.title + " | Project Movie";
   } else {
-    window.location.href = "index.html";
+    window.location.href = "";
   }
 }
 
@@ -196,7 +196,7 @@ input.addEventListener("keypress", function(event) {
 });
 
 inputButton.onclick = function() {
-  window.location.href = initialUrl + "results.html?search=" + input.value + "&list=movie";
+  window.location.href = "results?search=" + input.value + "&list=movie";
 }
 
 const root = document.querySelector(":root");

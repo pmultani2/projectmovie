@@ -9,10 +9,10 @@ const listParam = urlParams.get("list");
 const movieButton = document.getElementById("movie-btn");
 const tvButton = document.getElementById("tv-btn");
 movieButton.onclick = function () {
-  window.location.href = "results.html?search=" + searchParam + "&list=movie";
+  window.location.href = "results?search=" + searchParam + "&list=movie";
 }
 tvButton.onclick = function() {
-  window.location.href = "results.html?search=" + searchParam + "&list=tv";
+  window.location.href = "results?search=" + searchParam + "&list=tv";
 }
 
 const loadMoreElement = document.getElementById("load-more-btn");
@@ -55,8 +55,8 @@ function createContainers(data) {
     contentContainer.appendChild(singleContainer);
   
     singleContainer.onclick = function() {
-      if (listParam == "movie") window.location.href = "content.html?" + "id=" + data.results[i].id;
-      else if (listParam == "tv") window.location.href = "tvcontent.html?" + "id=" + data.results[i].id;
+      if (listParam == "movie") window.location.href = "movie?" + "id=" + data.results[i].id;
+      else if (listParam == "tv") window.location.href = "tv?" + "id=" + data.results[i].id;
     }
   }
 }
@@ -71,7 +71,7 @@ input.addEventListener("keypress", function(event) {
 });
 
 inputButton.onclick = function() {
-  window.location.href = "results.html?search=" + input.value + "&list=" + listParam;
+  window.location.href = "results?search=" + input.value + "&list=" + listParam;
 }
 
 loadMoreElement.onclick = function() {
